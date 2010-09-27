@@ -38,6 +38,7 @@ mkdir $WWW_DIR
 cp $GRIT_SCRIPT_DIR/tpl/pull.sh $WWW_DIR/pull.sh
 sed "s@DOC_ROOT@$DOC_ROOT@" $WWW_DIR/pull.sh -i
 
+mkdir $WWW_DIR/logs
 mkdir $WWW_DIR/dev
 cd $WWW_DIR/dev
 git init

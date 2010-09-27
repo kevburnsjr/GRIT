@@ -27,7 +27,7 @@ echo "Repo Created."
 
 cp $GRIT_SCRIPT_DIR/tpl/post-receive $REPO_DIR/hooks/post-receive
 sed "s@DOC_ROOT@$DOC_ROOT@" $REPO_DIR/hooks/post-receive -i
-sed "s@WWW_DIR@$WWW_DIR@"   $WWW_DIR/pull.sh -i
+sed "s@WWW_DIR@$WWW_DIR@"   $REPO_DIR/hooks/post-receive -i
 chmod 755 $REPO_DIR/hooks/post-receive
 
 echo "Repo Hooks Created."

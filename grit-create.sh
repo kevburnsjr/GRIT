@@ -25,15 +25,15 @@ echo "Repo Created."
 
 # =========== Create Hooks ===========
 
-cp $GRIT_SCRIPT_DIR/tpl/post-receive hooks/post-receive
-sed "s/DOC_ROOT/$DOC_ROOT/" hooks/post-receive -i
-chmod 755 hooks/post-receive
+cp $GRIT_SCRIPT_DIR/tpl/post-receive $REPO_DIR/hooks
+sed "s/DOC_ROOT/$DOC_ROOT/" $REPO_DIR/hooks/post-receive -i
+chmod 755 $REPO_DIR/hooks/post-receive
 
 echo "Repo Hooks Created."
 
 # =========== Create Document Root ===========
 
-cp $GRIT_SCRIPT_DIR/pull.sh $WWW_DIR
+cp $GRIT_SCRIPT_DIR/tpl/pull.sh $WWW_DIR
 sed "s/DOC_ROOT/$DOC_ROOT/" $WWW_DIR/pull.sh -i
 
 mkdir $WWW_DIR/dev
@@ -53,6 +53,6 @@ sed "s/HOST/$GRIT_HOST/" $GRIT_VHOST_DIR/$1.conf -i
 sudo /etc/init.d/httpd reload
 
 echo "- --- -"
-echo "ssh://$GRIT_USER@$GRIT_HOST:$GRIT_PORT$REPO"
+echo "ssh://$GRIT_USER@$GRIT_HOST:$GRIT_PORT$REPO_DIR"
 
 exit

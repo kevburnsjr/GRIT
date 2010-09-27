@@ -1,0 +1,67 @@
+# ==============================================================================
+# GRIT - Git Repository Initalization Tool
+# ==============================================================================
+#  - GRIT is a tool for getting repositories up and running with a single 
+#    command.  It creates the repository, adds an auto-deploy hook, creates a 
+#    document root, creates a vhost, reloads Apache and spits out a git repo url
+#  - Created by Kevin Burns http://kevburnsjr.com
+
+# ==============================================================================
+# System Requirements
+# ==============================================================================
+#  - Linux  ( probably requires sudo )
+#  - Apache ( http://httpd.apache.org/docs/2.2/install.html )
+#  - Git    ( http://git-scm.com/download )
+#    - sudo yum install git
+#    - sudo apt-get install git
+#    - wget http://kernel.org/pub/software/scm/git/git-1.7.3.tar.bz2
+
+# ==============================================================================
+# Apache Config
+# ==============================================================================
+#  - Append to httpd.conf
+
+Include /var/www/vhosts/*.conf
+
+# ==============================================================================
+# Linux User/Group Management
+# ==============================================================================
+#  - Create dev group
+#  - Assign proper users to dev group
+
+groupadd dev
+
+useradd -g dev NEW_USER
+usermod -g dev EXISTING_USER
+
+# ==============================================================================
+# Linux File Permissions
+# ==============================================================================
+#  - NOTE: You don't have to use these directories, but these are the defaults.
+#  - Give group ownership to git, www and vhost dirs
+#  - Give group write permission to git, www and vhost dirs
+
+chgrp dev /var/git
+chgrp dev /var/www
+chgrp dev /var/www/vhosts
+
+chmod 775 /var/git
+chmod 775 /var/www
+chmod 775 /var/www/vhosts
+
+# ==============================================================================
+# Linux Bash Config
+# ==============================================================================
+#  - Append to ~/.bashrc
+#  - Run : source ~/.bashrc
+
+alias grit='/var/git/grit/grit.sh'
+
+# ==============================================================================
+# Linux Sudoers Config
+# ==============================================================================
+#  - Append to /etc/sudoers
+#  - Ubuntu uses /etc/init.d/apache2
+#  - Centos uses /etc/init.d/httpd
+
+%dev ALL=(root)NOPASSWD:/etc/init.d/httpd reload

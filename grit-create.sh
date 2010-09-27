@@ -49,9 +49,10 @@ echo "Document Root Created."
 # =========== Create VHost ===========
 
 cp $GRIT_SCRIPT_DIR/tpl/vhost.conf $GRIT_VHOST_DIR/$1.conf
-sed "s@REPO_NAME@$1@" $GRIT_VHOST_DIR/$1.conf -i
+sed "s@REPO_NAME@$1@"       $GRIT_VHOST_DIR/$1.conf -i
 sed "s@DOC_ROOT@$DOC_ROOT@" $GRIT_VHOST_DIR/$1.conf -i
-sed "s@HOST@$GRIT_HOST@" $GRIT_VHOST_DIR/$1.conf -i
+sed "s@HOST@$GRIT_HOST@"    $GRIT_VHOST_DIR/$1.conf -i
+sed "s@WWW_DIR@$WWW_DIR@"   $GRIT_VHOST_DIR/$1.conf -i
 
 sudo /etc/init.d/httpd reload
 

@@ -1,14 +1,14 @@
 #!/bin/bash
 
-REPO=$GRIT_REPO_DIR/$1.git
-DOC_ROOT=$GIT_WWW_DIR/$1
+REPO_DIR=$GRIT_REPO_DIR/$1.git
+WWW_DIR=$GIT_WWW_DIR/$1
 
-if [ -z $REPO ]; then
+if [ -z $REPO_DIR ]; then
     echo "Please specify a repository."
     exit 1
 fi
 
-if [ ! -d $REPO ]; then
+if [ ! -d $REPO_DIR ]; then
     echo "Repository does not exist."
     exit 1
 fi
@@ -20,11 +20,11 @@ if [ "$SURE" != "y" ]; then
     exit 1
 fi
 
-rm -rf $REPO
+rm -rf $REPO_DIR
 
 echo "Repo Removed."
 
-rm -rf $DOC_ROOT
+rm -rf $WWW_DIR
 
 echo "Document Root Removed."
 

@@ -25,7 +25,7 @@ echo "Repo Created."
 # =========== Create Hooks ===========
 
 rm hooks/post-receive
-cp $GRIT_SCRIPT_DIR/tpl/post-receive.tpl hooks/post-receive
+cp $GRIT_SCRIPT_DIR/tpl/post-receive hooks/post-receive
 sed "s/DOC_ROOT/$WWW_DIR\/dev/" hooks/post-receive -i
 chmod 755 hooks/post-receive
 

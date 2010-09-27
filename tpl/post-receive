@@ -1,4 +1,4 @@
 #!/bin/sh
 
-env -i /var/www/REPO_NAME/scripts/pull.sh
+env -i DOC_ROOT/pull.sh
 

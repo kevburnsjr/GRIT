@@ -1,46 +1,58 @@
 #!/bin/bash
 
-GIT_DIR=$GRIT_REPO_DIR/$1.git
-DOC_ROOT=$GRIT_WWW_DIR/$1
+source config.sh
+
+REPO_DIR=$GRIT_REPO_DIR/$1.git
+WWW_DIR=$GRIT_WWW_DIR/$1
 
 if [ -z $1 ]; then
     echo "Please specify a repository."
     exit 1
 fi
-if [ -d $GRIT_REPO_DIR/$1.git ]; then
+if [ -d $REPO_DIR ]; then
     echo "Repository already exists."
     exit 1
 fi
 
-mkdir $GIT_DIR
-cd $GIT_DIR
+# =========== Create Repository ===========
+
+mkdir $REPO_DIR
+cd $REPO_DIR
 git --bare init
 
 echo "Repo Created."
 
+# =========== Create Hooks ===========
+
 rm hooks/post-receive
-cp $GRIT_SCRIPT_DIR/post-receive.tpl hooks/post-receive
-sed "s/REPO_NAME/$1/" hooks/post-receive -i
+cp $GRIT_SCRIPT_DIR/tpl/post-receive.tpl hooks/post-receive
+sed "s/DOC_ROOT/$WWW_DIR\/dev/" hooks/post-receive -i
 chmod 755 hooks/post-receive
 
 echo "Repo Hooks Created."
 
-cp -R $GRIT_SCRIPT_DIR/pull.sh $DOC_ROOT
-sed "s/REPO_NAME/$1/" $DOC_ROOT/pull.sh -i
-mkdir $DOC_ROOT/dev
-cd $DOC_ROOT/dev
+# =========== Create Document Root ===========
+
+cp $GRIT_SCRIPT_DIR/pull.sh $WWW_DIR
+sed "s/DOC_ROOT/$WWW_DIR\/dev/" $WWW_DIR/pull.sh -i
+
+mkdir $WWW_DIR/dev
+cd $WWW_DIR/dev
 git init
-git remote add origin $GRIT_REPO_DIR/$1.git
+git remote add origin $REPO
 
 echo "Document Root Created."
 
-VHOST_DIR=GRIT_VHOST_DIR
-cp $VHOST_DIR/vhost.tpl $VHOST_DIR/$1.conf
-sed "s/REPO_NAME/$1/" $VHOST_DIR/$1.conf -i
+# =========== Create VHost ===========
+
+cp $GRIT_SCRIPT_DIR/tpl/vhost.conf $GRIT_VHOST_DIR/$1.conf
+sed "s/REPO_NAME/$1/" $GRIT_VHOST_DIR/$1.conf -i
+sed "s/DOC_ROOT/$WWW_DIR\/dev/" $GRIT_VHOST_DIR/$1.conf -i
+sed "s/HOST/$GRIT_HOST/" $GRIT_VHOST_DIR/$1.conf -i
 
 sudo /etc/init.d/httpd reload
 
 echo "- --- -"
-echo "ssh://kev@defiance:30010/var/git/$1.git"
+echo "ssh://$GRIT_USER@$GRIT_HOST:$GRIT_PORT$REPO"
 
 exit

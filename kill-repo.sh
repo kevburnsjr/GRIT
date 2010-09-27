@@ -1,15 +1,14 @@
 #!/bin/bash
 
-GIT_DIR=~/$1.git
-DOC_ROOT=/var/www/$1
-VHOST_DIR=/var/www/vhosts
+REPO=$GRIT_REPO_DIR/$1.git
+DOC_ROOT=$GIT_WWW_DIR/$1
 
-if [ -z $GIT_DIR ]; then
+if [ -z $REPO ]; then
     echo "Please specify a repository."
     exit 1
 fi
 
-if [ ! -d $GIT_DIR ]; then
+if [ ! -d $REPO ]; then
     echo "Repository does not exist."
     exit 1
 fi
@@ -21,7 +20,7 @@ if [ "$SURE" != "y" ]; then
     exit 1
 fi
 
-rm -rf $GIT_DIR
+rm -rf $REPO
 
 echo "Repo Removed."
 
@@ -29,7 +28,7 @@ rm -rf $DOC_ROOT
 
 echo "Document Root Removed."
 
-rm $VHOST_DIR/$1.conf
+rm $GRIT_VHOST_DIR/$1.conf
 
 echo "VHost Removed."
 

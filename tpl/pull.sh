@@ -1,4 +1,4 @@
 #! /bin/bash
-cd /var/www/REPO_NAME/dev
+cd DOC_ROOT
 git pull origin master
 exit

@@ -17,4 +17,3 @@ export GRIT_PORT=30010
 
 # Who is executing this script?
 export GRIT_USER=`whoami`
-

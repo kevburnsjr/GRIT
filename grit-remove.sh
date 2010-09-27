@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source config.sh
+
 REPO_DIR=$GRIT_REPO_DIR/$1.git
 WWW_DIR=$GIT_WWW_DIR/$1
 

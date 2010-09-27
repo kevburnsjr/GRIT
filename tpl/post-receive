@@ -1,4 +1,4 @@
 #!/bin/sh
 
-env -i DOC_ROOT/pull.sh
+env -i WWW_DIR/pull.sh
 

@@ -52,6 +52,7 @@ chmod 775 /var/www/vhosts
 # ==============================================================================
 # Linux Bash Config
 # ==============================================================================
+#  - NOTE: This is just a convenience so you can run #> grit create reponame
 #  - Append to ~/.bashrc
 #  - Run : source ~/.bashrc
 

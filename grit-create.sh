@@ -37,6 +37,7 @@ mkdir $WWW_DIR
 
 cp $GRIT_SCRIPT_DIR/tpl/pull.sh $WWW_DIR/pull.sh
 sed "s@DOC_ROOT@$DOC_ROOT@" $WWW_DIR/pull.sh -i
+sed "s@WWW_DIR@$WWW_DIR@"   $WWW_DIR/pull.sh -i
 
 mkdir $WWW_DIR/logs
 mkdir $WWW_DIR/dev
@@ -51,7 +52,6 @@ echo "Document Root Created."
 cp $GRIT_SCRIPT_DIR/tpl/vhost.conf $GRIT_VHOST_DIR/$1.conf
 sed "s@REPO_NAME@$1@"       $GRIT_VHOST_DIR/$1.conf -i
 sed "s@DOC_ROOT@$DOC_ROOT@" $GRIT_VHOST_DIR/$1.conf -i
-sed "s@WWW_DIR@$WWW_DIR@"   $GRIT_VHOST_DIR/$1.conf -i
 sed "s@HOST@$GRIT_HOST@"    $GRIT_VHOST_DIR/$1.conf -i
 
 

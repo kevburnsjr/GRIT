@@ -26,7 +26,7 @@ echo "Repo Created."
 # =========== Create Hooks ===========
 
 cp $GRIT_SCRIPT_DIR/tpl/post-receive $REPO_DIR/hooks
-sed "s/DOC_ROOT/$DOC_ROOT/" $REPO_DIR/hooks/post-receive -i
+sed -i "s@DOC_ROOT@$DOC_ROOT@" $REPO_DIR/hooks/post-receive
 chmod 755 $REPO_DIR/hooks/post-receive
 
 echo "Repo Hooks Created."
@@ -34,7 +34,7 @@ echo "Repo Hooks Created."
 # =========== Create Document Root ===========
 
 cp $GRIT_SCRIPT_DIR/tpl/pull.sh $WWW_DIR
-sed "s/DOC_ROOT/$DOC_ROOT/" $WWW_DIR/pull.sh -i
+sed "s@DOC_ROOT@$DOC_ROOT@" $WWW_DIR/pull.sh -i
 
 mkdir $WWW_DIR/dev
 cd $WWW_DIR/dev
@@ -46,9 +46,9 @@ echo "Document Root Created."
 # =========== Create VHost ===========
 
 cp $GRIT_SCRIPT_DIR/tpl/vhost.conf $GRIT_VHOST_DIR/$1.conf
-sed "s/REPO_NAME/$1/" $GRIT_VHOST_DIR/$1.conf -i
-sed "s/DOC_ROOT/$DOC_ROOT/" $GRIT_VHOST_DIR/$1.conf -i
-sed "s/HOST/$GRIT_HOST/" $GRIT_VHOST_DIR/$1.conf -i
+sed "s@REPO_NAME@$1@" $GRIT_VHOST_DIR/$1.conf -i
+sed "s@DOC_ROOT@$DOC_ROOT@" $GRIT_VHOST_DIR/$1.conf -i
+sed "s@HOST@$GRIT_HOST@" $GRIT_VHOST_DIR/$1.conf -i
 
 sudo /etc/init.d/httpd reload
 

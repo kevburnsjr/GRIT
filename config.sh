@@ -9,7 +9,7 @@ export GRIT_WWW_DIR=/var/www
 export GRIT_VHOST_DIR=/var/www/vhosts
 
 # Directory where this script is located
-export GRIT_SCRIPT_DIR=`pwd`
+export GRIT_SCRIPT_DIR=`dirname $0`
 
 # What's the SSH host:port?
 export GRIT_HOST=defiance

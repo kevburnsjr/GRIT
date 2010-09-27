@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source config.sh
+source `dirname $0`/config.sh
 
 REPO_DIR=$GRIT_REPO_DIR/$1.git
-WWW_DIR=$GIT_WWW_DIR/$1
+WWW_DIR=$GRIT_WWW_DIR/$1
 
 if [ -z $REPO_DIR ]; then
     echo "Please specify a repository."

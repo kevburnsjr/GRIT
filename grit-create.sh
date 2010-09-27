@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source config.sh
+source `dirname $0`/config.sh
 
 REPO_DIR=$GRIT_REPO_DIR/$1.git
 WWW_DIR=$GRIT_WWW_DIR/$1
@@ -25,7 +25,7 @@ echo "Repo Created."
 
 # =========== Create Hooks ===========
 
-cp $GRIT_SCRIPT_DIR/tpl/post-receive $REPO_DIR/hooks
+cp $GRIT_SCRIPT_DIR/tpl/post-receive $REPO_DIR/hooks/post-receive
 sed -i "s@DOC_ROOT@$DOC_ROOT@" $REPO_DIR/hooks/post-receive
 chmod 755 $REPO_DIR/hooks/post-receive
 
@@ -33,13 +33,15 @@ echo "Repo Hooks Created."
 
 # =========== Create Document Root ===========
 
-cp $GRIT_SCRIPT_DIR/tpl/pull.sh $WWW_DIR
+mkdir $WWW_DIR
+
+cp $GRIT_SCRIPT_DIR/tpl/pull.sh $WWW_DIR/pull.sh
 sed "s@DOC_ROOT@$DOC_ROOT@" $WWW_DIR/pull.sh -i
 
 mkdir $WWW_DIR/dev
 cd $WWW_DIR/dev
 git init
-git remote add origin $REPO
+git remote add origin $REPO_DIR
 
 echo "Document Root Created."
 

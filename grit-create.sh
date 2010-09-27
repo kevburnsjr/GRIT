@@ -26,7 +26,8 @@ echo "Repo Created."
 # =========== Create Hooks ===========
 
 cp $GRIT_SCRIPT_DIR/tpl/post-receive $REPO_DIR/hooks/post-receive
-sed -i "s@DOC_ROOT@$DOC_ROOT@" $REPO_DIR/hooks/post-receive
+sed "s@DOC_ROOT@$DOC_ROOT@" $REPO_DIR/hooks/post-receive -i
+sed "s@WWW_DIR@$WWW_DIR@"   $WWW_DIR/pull.sh -i
 chmod 755 $REPO_DIR/hooks/post-receive
 
 echo "Repo Hooks Created."
@@ -37,7 +38,6 @@ mkdir $WWW_DIR
 
 cp $GRIT_SCRIPT_DIR/tpl/pull.sh $WWW_DIR/pull.sh
 sed "s@DOC_ROOT@$DOC_ROOT@" $WWW_DIR/pull.sh -i
-sed "s@WWW_DIR@$WWW_DIR@"   $WWW_DIR/pull.sh -i
 
 mkdir $WWW_DIR/logs
 mkdir $WWW_DIR/dev

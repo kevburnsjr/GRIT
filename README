@@ -17,13 +17,6 @@
 #    - wget http://kernel.org/pub/software/scm/git/git-1.7.3.tar.bz2
 
 # ==============================================================================
-# Apache Config
-# ==============================================================================
-#  - Append to httpd.conf
-
-Include /var/www/vhosts/*.conf
-
-# ==============================================================================
 # Linux User/Group Management
 # ==============================================================================
 #  - Create dev group
@@ -37,17 +30,24 @@ usermod -g dev EXISTING_USER
 # ==============================================================================
 # Linux File Permissions
 # ==============================================================================
-#  - NOTE: You don't have to use these directories, but these are the defaults.
+#  - NOTE: You don't have to use these directories. Edit config.sh to match.
 #  - Give group ownership to git, www and vhost dirs
 #  - Give group write permission to git, www and vhost dirs
 
-chgrp dev /var/git
-chgrp dev /var/www
-chgrp dev /var/www/vhosts
+chgrp dev /var/git           # GRIT_REPO_DIR
+chgrp dev /var/www           # GRIT_WWW_DIR
+chgrp dev /var/www/vhosts    # GRIT_VHOST_DIR
 
 chmod 775 /var/git
 chmod 775 /var/www
 chmod 775 /var/www/vhosts
+
+# ==============================================================================
+# Apache Config
+# ==============================================================================
+#  - Append to httpd.conf
+
+Include /var/www/vhosts/*.conf
 
 # ==============================================================================
 # Linux Bash Config

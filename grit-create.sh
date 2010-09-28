@@ -2,11 +2,12 @@
 
 source `dirname $0`/config.sh
 
-REPO_DIR=$GRIT_REPO_DIR/$1.git
-WWW_DIR=$GRIT_WWW_DIR/$1
+REPO_NAME=$1
+REPO_DIR=$GRIT_REPO_DIR/$REPO_NAME.git
+WWW_DIR=$GRIT_WWW_DIR/$REPO_NAME
 DOC_ROOT=$WWW_DIR/dev
 
-if [ -z $1 ]; then
+if [ -z $REPO_NAME ]; then
     echo "Please specify a repository."
     exit 1
 fi
@@ -17,10 +18,10 @@ fi
 
 function process_tpl {
     cp $1 $2
-    sed "s@DOC_ROOT@$DOC_ROOT@" $2 -i
-    sed "s@WWW_DIR@$WWW_DIR@"   $2 -i
-    sed "s@REPO_NAME@$1@"       $2 -i
-    sed "s@HOST@$GRIT_HOST@"    $2 -i
+    sed "s@DOC_ROOT@$DOC_ROOT@"   $2 -i
+    sed "s@WWW_DIR@$WWW_DIR@"     $2 -i
+    sed "s@REPO_NAME@$REPO_NAME@" $2 -i
+    sed "s@HOST@$GRIT_HOST@"      $2 -i
     chmod 775 $2
 }
 
@@ -58,7 +59,7 @@ process_tpl $GRIT_SCRIPT_DIR/tpl/pull.sh       $WWW_DIR/pull.sh
 # ==============================================================================
 # - /var/www/vhosts/REPONAME.conf
 
-process_tpl $GRIT_SCRIPT_DIR/tpl/vhost.conf    $GRIT_VHOST_DIR/$1.conf
+process_tpl $GRIT_SCRIPT_DIR/tpl/vhost.conf    $GRIT_VHOST_DIR/$REPO_NAME.conf
 
 sudo /etc/init.d/httpd reload
 
@@ -70,7 +71,7 @@ sudo /etc/init.d/httpd reload
 
 echo "Repo Created!"
 echo "- ssh://$GRIT_USER@$GRIT_HOST:$GRIT_PORT$REPO_DIR"
-echo "- http://$1.$GRIT_HOST"
+echo "- http://$REPO_NAME.$GRIT_HOST"
 echo "TIME TO GET SHIT DONE!"
 
 exit

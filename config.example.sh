@@ -26,8 +26,8 @@ GRIT_SCRIPT_DIR=`dirname $0`
 # What's the SSH host:port?
 # ==============================================================================
 
-GRIT_HOST=defiance
-GRIT_PORT=30010
+GRIT_HOST=hackyhack.net
+GRIT_PORT=22
 
 # ==============================================================================
 # Who is executing this script?

@@ -15,49 +15,62 @@ if [ -d $REPO_DIR ]; then
     exit 1
 fi
 
-# =========== Create Repository ===========
+function process_tpl {
+    cp $1 $2
+    sed "s@DOC_ROOT@$DOC_ROOT@" $2 -i
+    sed "s@WWW_DIR@$WWW_DIR@"   $2 -i
+    sed "s@REPO_NAME@$1@"       $2 -i
+    sed "s@HOST@$GRIT_HOST@"    $2 -i
+    chmod 775 $2
+}
+
+# ==============================================================================
+# Create Repository
+# ==============================================================================
+# - /var/git/REPONAME.git
 
 mkdir $REPO_DIR
 cd $REPO_DIR
 git --bare init
 
-echo "Repo Created."
-
-# =========== Create Hooks ===========
-
-cp $GRIT_SCRIPT_DIR/tpl/post-receive $REPO_DIR/hooks/post-receive
-sed "s@DOC_ROOT@$DOC_ROOT@" $REPO_DIR/hooks/post-receive -i
-sed "s@WWW_DIR@$WWW_DIR@"   $REPO_DIR/hooks/post-receive -i
-chmod 755 $REPO_DIR/hooks/post-receive
-
-echo "Repo Hooks Created."
-
-# =========== Create Document Root ===========
+# ==============================================================================
+# Create Document Root
+# ==============================================================================
+# - /var/www/REPONAME
 
 mkdir $WWW_DIR
-
-cp $GRIT_SCRIPT_DIR/tpl/pull.sh $WWW_DIR/pull.sh
-sed "s@DOC_ROOT@$DOC_ROOT@" $WWW_DIR/pull.sh -i
-
 mkdir $WWW_DIR/logs
 mkdir $WWW_DIR/dev
+
 cd $WWW_DIR/dev
 git init
 git remote add origin $REPO_DIR
 
-echo "Document Root Created."
+# ==============================================================================
+# Create Hooks
+# ==============================================================================
 
-# =========== Create VHost ===========
+process_tpl $GRIT_SCRIPT_DIR/tpl/post-receive  $REPO_DIR/hooks/post-receive
+process_tpl $GRIT_SCRIPT_DIR/tpl/pull.sh       $WWW_DIR/pull.sh
 
-cp $GRIT_SCRIPT_DIR/tpl/vhost.conf $GRIT_VHOST_DIR/$1.conf
-sed "s@REPO_NAME@$1@"       $GRIT_VHOST_DIR/$1.conf -i
-sed "s@DOC_ROOT@$DOC_ROOT@" $GRIT_VHOST_DIR/$1.conf -i
-sed "s@HOST@$GRIT_HOST@"    $GRIT_VHOST_DIR/$1.conf -i
+# ==============================================================================
+# Create VHost
+# ==============================================================================
+# - /var/www/vhosts/REPONAME.conf
 
+process_tpl $GRIT_SCRIPT_DIR/tpl/vhost.conf    $GRIT_VHOST_DIR/$1.conf
 
 sudo /etc/init.d/httpd reload
 
-echo "- --- -"
-echo "ssh://$GRIT_USER@$GRIT_HOST:$GRIT_PORT$REPO_DIR"
+# ==============================================================================
+# Complete
+# ==============================================================================
+# - ssh://user@host.tld/var/git/REPONAME.git
+# - http://REPONAME.host.tld
+
+echo "Repo Created!"
+echo "- ssh://$GRIT_USER@$GRIT_HOST:$GRIT_PORT$REPO_DIR"
+echo "- http://$1.$GRIT_HOST"
+echo "TIME TO GET SHIT DONE!"
 
 exit

@@ -15,25 +15,39 @@ if [ ! -d $REPO_DIR ]; then
     exit 1
 fi
 
-
 echo -n "Are you sure you want to remove this directory? "
 read SURE
 if [ "$SURE" != "y" ]; then
     exit 1
 fi
 
+# ==============================================================================
+# Remove Repository
+# ==============================================================================
+# - /var/git/REPONAME.git
+
 rm -rf $REPO_DIR
 
-echo "Repo Removed."
+# ==============================================================================
+# Remove Document Root
+# ==============================================================================
+# - /var/www/REPONAME
 
 rm -rf $WWW_DIR
 
-echo "Document Root Removed."
+# ==============================================================================
+# Remove VHost
+# ==============================================================================
+# - /var/www/vhosts/REPONAME.conf
 
 rm $GRIT_VHOST_DIR/$1.conf
 
-echo "VHost Removed."
-
 sudo /etc/init.d/httpd reload
+
+# ==============================================================================
+# Complete
+# ==============================================================================
+
+echo "Repo Removed."
 
 exit
